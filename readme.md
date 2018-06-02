@@ -2,7 +2,7 @@
 A simple module to format a Date and do some arithmetic on it.
 
 ## Usage
-Use `npm install dateextension`.
+Use `npm install date-extension`.
 Or download files to your computer. After downloading 
 within the download directory, open a cmd window and start `npm install`.
 
