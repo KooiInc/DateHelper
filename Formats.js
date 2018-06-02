@@ -1,5 +1,4 @@
-module.exports = (() => {
-  return {
+module.exports = {
     dateISO: (separator = "-") => `yyyy${separator}mm${separator}dd`,
     dateMonthFullEN: "MM d yyyy",
     dateMonthFull: "d MM yyyy",
@@ -18,5 +17,4 @@ module.exports = (() => {
     dateTimeMonthShortWeekDayFull: "DOW dd M d yyyy hh:MI",
     dateTimeMonthWeekDayShortEN: "dow M d yyyy hh:MI",
     dateTimeMonthShortWeekDayShort: "dow d M yyyy hh:MI",
-  }
-})();
+};
