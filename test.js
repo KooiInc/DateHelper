@@ -3,6 +3,7 @@ const { XDate } = require("./");
 const chai = require("chai");
 const assert = chai["assert"];
 const expect = chai["expect"];
+const formats = require("./Formats");
 
 const tests = allTests();
 describe("DateHelper", () => {
@@ -46,12 +47,66 @@ describe("DateHelper", () => {
     it("Subtract minutes", tests.canSubtractMinutes);
     it("Add seconds", tests.canAddSeconds);
     it("Subtract seconds", tests.canSubtractSeconds);
+    it("Add milliseconds", tests.canAddMilliseconds);
+    it("Subtract milliseconds", tests.canSubtractMilliseconds);
     it("Month change adding more days then contained by month", tests.canAddDaysOverMonth);
     it("Month change after subtracting more days then current date", tests.canSubtractDaysOverMonth);
     it("Date changes after subtracting minutes from 00:00h", tests.canSubtractMinutesOverDate);
     it("Add 1 day on feb 28 of a leap year", tests.leapYearFebruary28Add1);
     it("Add 1 day on feb 28 of a non leap year", tests.nonLeapYearFebruary28Add1);
   });
+  describe("√ Formats ISO", () =>  {
+    const fixed = XDate("2015/03/18 11:00");
+    it("dateISO (yyyy-mm-dd)", () => assert.equal(fixed.format(formats.dateISO()), "2015-03-18"));
+    it("dateTimeISOFull (yyyy-mm-dd mm:hh:S.MS)", () => assert.equal(fixed.format(formats.dateTimeISOFull()), "2015-03-18 03:11:00.000"));
+    it("dateTimeISOSeconds (yyyy-mm-dd mm:hh:S)", () => assert.equal(fixed.format(formats.dateTimeISOSeconds()), "2015-03-18 03:11:00"));
+    it("dateTimeISO (yyyy-mm-dd mm:hh)", () => assert.equal(fixed.format(formats.dateTimeISO()), "2015-03-18 03:11"));
+    it("dateISO (yyyy/mm/dd)", () => assert.equal(fixed.format(formats.dateISO("/")), "2015/03/18"));
+    it("dateTimeISOFull (yyyy/mm/dd mm:hh:S.MS)", () => assert.equal(fixed.format(formats.dateTimeISOFull("/")), "2015/03/18 03:11:00.000"));
+    it("dateTimeISOSeconds (yyyy/mm/dd mm:hh:S)", () => assert.equal(fixed.format(formats.dateTimeISOSeconds("/")), "2015/03/18 03:11:00"));
+    it("dateTimeISO (yyyy/mm/dd mm:hh)", () => assert.equal(fixed.format(formats.dateTimeISO("/")), "2015/03/18 03:11"));
+  });
+  describe("√ Formats, language EN", () => {
+    const fixedEN = XDate("2015/03/18 11:00");
+    it("dateMonthFullEN (MM dd yyyy)", () => assert.equal(fixedEN.format(formats.dateMonthFullEN), "March 18 2015"));
+    it("dateMonthWeekDayFullEN (DOW MM dd yyyy)", () => assert.equal(fixedEN.format(formats.dateMonthWeekDayFullEN), "Wednesday March 18 2015"));
+    it("dateMonthFullWeekDayShortEN (dow MM dd yyyy)", () => assert.equal(fixedEN.format(formats.dateMonthFullWeekDayShortEN), "Wed March 18 2015"));
+    it("dateTimeMonthFullWeekDayShortEN (dow MM dd yyyy mm:hh)", () => assert.equal(fixedEN.format(formats.dateTimeMonthFullWeekDayShortEN), "Wed March 18 2015 03:11"));
+    it("dateTimeMonthFullEN (MM dd yyyy mm:hh)", () => assert.equal(fixedEN.format(formats.dateTimeMonthFullEN), "March 18 2015 03:11"));
+    it("dateTimeMonthWeekDayFullEN (DOW MM dd yyyy mm:hh)", () => assert.equal(fixedEN.format(formats.dateTimeMonthWeekDayFullEN), "Wednesday March 18 2015 03:11"));
+    it("dateTimeMonthWeekDayShortEN (dow M dd yyyy mm:hh)", () => assert.equal(fixedEN.format(formats.dateTimeMonthWeekDayShortEN), "Wed Mar 18 2015 03:11"));
+  });
+  describe("Formats, language DE", () => {
+    const fixed = XDate("2015/03/18 11:00", "DE");
+    it("dateMonthFull (dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFull), "18 März 2015"));
+    it("dateMonthWeekDayFull (DOW dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthWeekDayFull), "Mittwoch 18 März 2015"));
+    it("dateMonthFullWeekDayShort (dow dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullWeekDayShort), "Mit 18 März 2015"));
+    it("dateTimeMonthFullWeekDayShort (dow dd MM dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthFullWeekDayShort), "Mit 18 März 18 2015 03:11"));
+    it("dateTimeMonthFull (dd MM yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthFull), "18 März 2015 03:11"));
+    it("dateTimeMonthShortWeekDayFull (DOW dd M dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayFull), "Mittwoch 18 Mär 18 2015 03:11"));
+    it("dateTimeMonthShortWeekDayShort (dow dd M dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayShort), "Mit 18 Mär 18 2015 03:11"));
+  });
+  describe("Formats, language NL", () => {
+    const fixed = XDate("2015/03/18 11:00", "NL");
+    it("dateMonthFull (dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFull), "18 Maart 2015"));
+    it("dateMonthWeekDayFull (DOW dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthWeekDayFull), "Woensdag 18 Maart 2015"));
+    it("dateMonthFullWeekDayShort (dow dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullWeekDayShort), "Woe 18 Maart 2015"));
+    it("dateTimeMonthFullWeekDayShort (dow dd MM dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthFullWeekDayShort), "Woe 18 Maart 18 2015 03:11"));
+    it("dateTimeMonthFull (dd MM yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthFull), "18 Maart 2015 03:11"));
+    it("dateTimeMonthShortWeekDayFull (DOW dd M dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayFull), "Woensdag 18 Maa 18 2015 03:11"));
+    it("dateTimeMonthShortWeekDayShort (dow dd M dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayShort), "Woe 18 Maa 18 2015 03:11"));
+  });
+  describe("Formats, language FR", () => {
+    const fixed = XDate("2015/03/18 11:00", "FR");
+    it("dateMonthFull (dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFull), "18 Mars 2015"));
+    it("dateMonthWeekDayFull (DOW dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthWeekDayFull), "Mercredi 18 Mars 2015"));
+    it("dateMonthFullWeekDayShort (dow dd MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullWeekDayShort), "Mer 18 Mars 2015"));
+    it("dateTimeMonthFullWeekDayShort (dow dd MM dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthFullWeekDayShort), "Mer 18 Mars 18 2015 03:11"));
+    it("dateTimeMonthFull (dd MM yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthFull), "18 Mars 2015 03:11"));
+    it("dateTimeMonthShortWeekDayFull (DOW dd M dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayFull), "Mercredi 18 Mar 18 2015 03:11"));
+    it("dateTimeMonthShortWeekDayShort (dow dd M dd yyyy mm:hh)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayShort), "Mer 18 Mar 18 2015 03:11"));
+  })
+
 });
 
 function allTests() {
@@ -67,14 +122,17 @@ function allTests() {
       const nowPlain = new Date();
       assert.equal(now.format("yyyy/m/d"), [nowPlain.getFullYear(), nowPlain.getMonth() + 1, nowPlain.getDate()].join("/"))
     },
-    methodsApproval: () => {
-      const methods = Object.keys(now).filter(k => now[k] instanceof Function).sort().toString();
-      assert.equal(methods, "add,format,setLanguage,setPart");
+    leftPadding: () => {
+      assert.equal(XDate(fixed.value).add(15, units.ms).format("MS"), "015");
+      assert.equal(XDate(fixed.value).add(15, units.ms).format("mm"), "07");
     },
-    propsApproval: () => {
-      const props = Object.keys(now).filter(k => !(now[k] instanceof Function)).sort().toString();
-      assert.equal(props, "language,units,value");
+    canAddDaysOverMonth: () => {
+      const x = XDate(fixed.value);
+      assert.equal(x.add(33, units.day).format("m"), 8);
+      assert.equal(x.format("d"), 13);
     },
+    methodsApproval: () => assert.equal(Object.keys(now).filter(k => now[k] instanceof Function).sort().toString(), "add,format,setLanguage,setPart"),
+    propsApproval: () => assert.equal(Object.keys(now).filter(k => !(now[k] instanceof Function)).sort().toString(), "language,units,value"),
     canFormatDefault: () => assert.equal(fixed.format("yyyy-mm-dd hh:MI"), "2018-07-11 00:00"),
     canFormatDefaultWithStrings: () => assert.equal(fixed.format("yyyy-mm-dd~T~hh:MI:S:MS~Z"), "2018-07-11T00:00:00:000Z"),
     formatENMonthLong: () => assert.equal(fixedEN.format("MM"), "July"),
@@ -93,21 +151,12 @@ function allTests() {
     formatDEMonthShort: () => assert.equal(fixedDE.format("M"), "Jul"),
     formatDEWeekLong: () => assert.equal(fixedDE.format("DOW"), "Mittwoch"),
     formatDEWeekShort: () => assert.equal(fixedDE.format("dow"), "Mit"),
-    leftPadding: () => {
-      assert.equal(XDate(fixed.value).add(15, units.ms).format("MS"), "015");
-      assert.equal(XDate(fixed.value).add(15, units.ms).format("mm"), "07");
-    },
     canAddMonth: () => assert.equal(+XDate(fixed.value).add(15, units.month).format("m"), 10),
     canSubtractMonth: () => assert.equal(+XDate(fixed.value).add(-5, units.month).format("m"), 2),
     canAddYear: () => assert.equal(+XDate(now.value).add(15, units.year).format("yyyy"), new Date().getFullYear() + 15),
     canSubtractYear: () => assert.equal(+XDate(now.value).add(-5, units.year).format("yyyy"), new Date().getFullYear() - 5),
     canAddDay: () => assert.equal(+XDate(now.value).add(15, units.day).format("d"), new Date().getDate() + 15),
     canSubtractDay: () => assert.equal(+XDate(fixed.value).add(-5, units.day).format("d"), 6),
-    canAddDaysOverMonth: () => {
-      const x = XDate(fixed.value);
-      assert.equal(x.add(33, units.day).format("m"), 8);
-      assert.equal(x.format("d"), 13);
-    },
     canSubtractDaysOverMonth: () => assert.equal(+XDate(fixed.value).add(-15, units.day).format("m"), 6),
     canSubtractMinutesOverDate: () => assert.equal(+XDate(fixed.value).add(-15, units.minute).format("d"), 10),
     canAddHours: () => assert.equal(+XDate(fixed.value).add(15, units.hour).format("h"), 15),
@@ -116,16 +165,10 @@ function allTests() {
     canSubtractMinutes: () => assert.equal(+XDate(fixed.value).add(-15, units.minute).format("mi"), 45),
     canAddSeconds: () => assert.equal(+XDate(fixed.value).add(15, units.second).format("s"), 15),
     canSubtractSeconds: () => assert.equal(+XDate(fixed.value).add(-15, units.second).format("s"), 45),
-    addSubtractInvalidStringParameterDoesNotChangeDate: () => {
-      const x = XDate(fixed.value);
-      const value = x.value;
-      assert.equal(x.add("five", units.day).value, value);
-    },
+    canAddMilliseconds: () => assert.equal(+XDate(fixed.value).add(200, units.ms).format("ms"), 200),
+    canSubtractMilliseconds: () => assert.equal(+XDate(fixed.value).add(-200, units.ms).format("ms"), 800),
+    addSubtractInvalidStringParameterDoesNotChangeDate: () => assert.equal(XDate(fixed.value).add("five", units.day).format("d"), XDate(fixed.value).format("d")),
     leapYearFebruary28Add1: () => assert.equal(XDate("2000/02/28").add(1, units.day).value.getDate(), 29),
-    nonLeapYearFebruary28Add1: () => {
-      const x = XDate("2001/02/28");
-      assert.equal(x.add(1, units.day).value.getDate(), 1);
-      assert.equal(x.value.getMonth(), 2);
-    },
+    nonLeapYearFebruary28Add1: () => assert.equal(XDate("2001/02/28").add(1, units.day).value.getMonth(), 2),
   };
 }
