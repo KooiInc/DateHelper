@@ -3,7 +3,6 @@ const { XDate } = require("./");
 const chai = require("chai");
 const assert = chai["assert"];
 const expect = chai["expect"];
-const wtf = obj => console.log(obj);
 
 const tests = allTests();
 describe("DateHelper", () => {
@@ -62,7 +61,7 @@ function allTests() {
   const fixedNL = XDate(fixed.value, "NL");
   const fixedFR = XDate(fixed.value, "FR");
   const fixedDE = XDate(fixed.value, "DE");
-  const units = now.parts;
+  const units = now.units;
   return {
     createdValue: () => {
       const nowPlain = new Date();
@@ -74,7 +73,7 @@ function allTests() {
     },
     propsApproval: () => {
       const props = Object.keys(now).filter(k => !(now[k] instanceof Function)).sort().toString();
-      assert.equal(props, "language,parts,value");
+      assert.equal(props, "language,units,value");
     },
     canFormatDefault: () => assert.equal(fixed.format("yyyy-mm-dd hh:MI"), "2018-07-11 00:00"),
     canFormatDefaultWithStrings: () => assert.equal(fixed.format("yyyy-mm-dd~T~hh:MI:S:MS~Z"), "2018-07-11T00:00:00:000Z"),
