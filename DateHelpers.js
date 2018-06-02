@@ -1,9 +1,9 @@
 const { objMerge, translations } = require("./Translations");
-let moduleData = { formattingRegex: null, defaultLanguage: "NL" };
+let moduleData = { formattingRegex: null, defaultLanguage: "EN" };
 const padLeft = (n, len = 2, chr = "0") => len > (`${n}`).length && `0${new Array(len - (`${n}`).length).join(chr || "0")}${n}` || n;
-const parts = {day: "Date", month: "Month", year: "FullYear", hour: "Hours", minute: "Minutes", second: "Seconds", ms: "Milliseconds", dow: "Day"};
-const partsHelper = Object.keys(parts).reduce((parts, key) => objMerge(parts, {[key]: key}), {});
-const dateGetOrSet = Object.entries(parts)
+const dateUnits = {day: "Date", month: "Month", year: "FullYear", hour: "Hours", minute: "Minutes", second: "Seconds", ms: "Milliseconds", dow: "Day"};
+const objUnits = Object.keys(dateUnits).reduce((parts, key) => objMerge(parts, {[key]: key}), {});
+const dateGetOrSet = Object.entries(dateUnits)
   .map( part => ({ [part[0]]: (date, value) => date[`${value ? `set` : `get`}${part[1]}`](value) }) )
   .reduce( (prts, part) => objMerge(prts, part), {} );
 const currentDateValues = (currentXDateValue, language) => {
@@ -32,12 +32,12 @@ const setValidDate = param => !isNaN(param) ? param : new Date();
 
 module.exports = {
     dateSet: dateSet,
-    parts: parts,
+    dateUnits: dateUnits,
     setLanguage: setLanguage,
     format: format,
     dateAdd: dateAdd,
     setValidDate: setValidDate,
     moduleData: moduleData,
     objMerge: objMerge,
-    partsHelper: partsHelper
+    units: objUnits
 };
