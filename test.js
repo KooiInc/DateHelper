@@ -11,6 +11,9 @@ describe("DateHelper", () => {
     it("Can create an extended Date", tests.createdValue);
     it("Methods approval", tests.methodsApproval);
     it("Properties approval", tests.propsApproval);
+    it("Set date", () => assert.equal(XDate("2017/01/01").setUnit(4, "day").value.getDate(), new Date("2017/01/04").getDate()));
+    it("Set year", () => assert.equal(XDate("2017/01/01").setUnit(2021, "year").value.getFullYear(), new Date("2021/01/04").getFullYear()));
+    it("Set month", () => assert.equal(XDate("2017/02/05").setUnit(1, "month").value.getMonth(), new Date("2017/01/05").getMonth()));
     it("Leftpad values", tests.leftPadding);
   });
   describe("√ Formatting", () => {
@@ -56,7 +59,7 @@ describe("DateHelper", () => {
     it("Add 1 day on feb 28 of a non leap year", tests.nonLeapYearFebruary28Add1);
   });
   describe("√ Formats ISO", () =>  {
-    const fixed = XDate("2015/03/18 11:00");
+    const fixed = XDate("2015/03/18 11:03");
     it("dateISO (yyyy-mm-dd)", () => assert.equal(fixed.format(formats.dateISO()), "2015-03-18"));
     it("dateTimeISOFull (yyyy-mm-dd mm:hh:S.MS)", () => assert.equal(fixed.format(formats.dateTimeISOFull()), "2015-03-18 03:11:00.000"));
     it("dateTimeISOSeconds (yyyy-mm-dd mm:hh:S)", () => assert.equal(fixed.format(formats.dateTimeISOSeconds()), "2015-03-18 03:11:00"));
@@ -131,7 +134,7 @@ function allTests() {
       assert.equal(x.add(33, units.day).format("m"), 8);
       assert.equal(x.format("d"), 13);
     },
-    methodsApproval: () => assert.equal(Object.keys(now).filter(k => now[k] instanceof Function).sort().toString(), "add,format,setLanguage,setPart"),
+    methodsApproval: () => assert.equal(Object.keys(now).filter(k => now[k] instanceof Function).sort().toString(), "add,format,setLanguage,setUnit"),
     propsApproval: () => assert.equal(Object.keys(now).filter(k => !(now[k] instanceof Function)).sort().toString(), "language,units,value"),
     canFormatDefault: () => assert.equal(fixed.format("yyyy-mm-dd hh:MI"), "2018-07-11 00:00"),
     canFormatDefaultWithStrings: () => assert.equal(fixed.format("yyyy-mm-dd~T~hh:MI:S:MS~Z"), "2018-07-11T00:00:00:000Z"),
