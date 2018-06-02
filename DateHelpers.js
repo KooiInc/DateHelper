@@ -4,7 +4,7 @@ const padLeft = (n, len = 2, chr = "0") => len > (`${n}`).length && `0${new Arra
 const dateUnits = {day: "Date", month: "Month", year: "FullYear", hour: "Hours", minute: "Minutes", second: "Seconds", ms: "Milliseconds", dow: "Day"};
 const objUnits = Object.keys(dateUnits).reduce((parts, key) => objMerge(parts, {[key]: key}), {});
 const dateGetOrSet = Object.entries(dateUnits)
-  .map( part => ({ [part[0]]: (date, value) => date[`${value ? `set` : `get`}${part[1]}`](value) }) )
+  .map( part => ({ [part[0]]: (date, value) => date[`${value ? `set` : `get`}${part[1]}`](+value) }) )
   .reduce( (prts, part) => objMerge(prts, part), {} );
 const currentDateValues = (currentXDateValue, language) => {
   let currentValues = {
@@ -21,13 +21,13 @@ const currentDateValues = (currentXDateValue, language) => {
     || new RegExp("~|"+Object.keys(currentValues).reduce((p, key) => p.concat(`(\\b${key}\\b)`), []).join("|"), "g");
   return currentValues;  };
 const dateSet = (date, part, val = 0) => {
-  dateGetOrSet[part](date.value, val + (val > 0 && part === date.month && -1 || 0));
-  return date; };
+  if (part === "month") { val = val > 0 && val <= 12 ? val - 1 : val < 1 ? 12 : val; }
+  return dateGetOrSet[part](date.value, String(val)) && date; };
 const setLanguage = (date, language = moduleData.defaultLanguage) => {date.language = language; return date;};
 const format = (date, formatStr = "yyyy/mm/dd hh:mi:ss", language) => {
   const dateValueReplacements = currentDateValues(date.value, language || date.language);
   return (formatStr.replace(moduleData.formattingRegex, found => dateValueReplacements[found] || found)).split(/~/).join(""); };
-const dateAdd =  (date, part, val = 0) => dateSet(date, part, (+val || 0) + dateGetOrSet[part](date.value));
+const dateAdd =  (date, part, val = 0) => dateGetOrSet[part](date.value, (+val || 0) + dateGetOrSet[part](date.value)) && date;
 const setValidDate = param => !isNaN(param) ? param : new Date();
 
 module.exports = {
