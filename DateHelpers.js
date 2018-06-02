@@ -17,7 +17,7 @@ const currentDateValues = (currentXDateValue, language) => {
     S: padLeft(currentValues.s), MS: padLeft(currentValues.ms, 3), M: translations.months.short[language][currentValues.m-1], 
     MM: translations.months.full[language][currentValues.m-1], dow: translations.weekdays.short[language][currentValues.wd], 
     DOW: translations.weekdays.full[language][currentValues.wd] });
-  moduleData.formattingRegex = moduleData.formattingRegex 
+  moduleData.formattingRegex = moduleData.formattingRegex
     || new RegExp("~|"+Object.keys(currentValues).reduce((p, key) => p.concat(`(\\b${key}\\b)`), []).join("|"), "g");
   return currentValues;  };
 const dateSet = (date, part, val = 0) => {
