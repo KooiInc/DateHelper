@@ -9,14 +9,17 @@
   },
   "keywords": [
     "Date",
-    "Date formatting",
-    "Date arithmetics",
+    "Date Arithmetics",
     "Multilanguage Date formatting"
   ],
   "author": "NICon/Renzo Kooi",
   "license": "ISC",
-  "name": "datehelper",
-  "version": "1.1.0",
+  "name": "dateextension",
+  "version": "1.1.1",
   "description": "A simple Date helper library for formatting and simple arithmetic operations",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KooiInc/DateExtension.git"
+  },
   "dependencies": {}
 }
