@@ -9,7 +9,7 @@ within the download directory, open a cmd window and start `npm install`.
 Now you can start an instance using
 
 ```javascript
-const { XDate } = require("[path.to]DateExtension");
+const { XDate } = require("[path.to.DateExtension]");
 const now = XDate();
 // etc.
 ```
@@ -124,6 +124,21 @@ Negative values are converted to positive values (see examples).
 XDate("2000/01/01").setUnit(4, "month").format("MM"); // "April"
 XDate("2000/01/01").setUnit(33, "day").format("yyyy/mm/dd"); // "2000/02/02"
 XDate("2000/01/01").setUnit(-33, "day").format("yyyy/mm/dd"); // "2000/02/02"
-XDate("2000/01/01").setUnit(44, "month").format("yyyy/mm/dd"); // "2003-08-01"
-XDate("2000/01/01").setUnit(-44, "month").format("yyyy/mm/dd"); // "2003-08-01"
+XDate("2000/01/01").setUnit(44, "month").format("yyyy/mm/dd"); // "2003/08/01"
+XDate("2000/01/01").setUnit(-44, "month").format("yyyy/mm/dd"); // "2003/08/01"
+```
+
+#Bonus predefined formatting strings
+The library contains a module with a number of predefined formatting strings.
+
+##Usage
+
+Assuming you already required the `DateExtension` module:
+
+```
+const formats = require("[path.to.DateExtension]/Formats");
+XDate("2018/06/01").format(formats.dateTimeISOFull()); // "2018-06-01 00:00:00.000"
+XDate("2018/06/01").format(formats.dateTimeMonthFullWeekDayShort, "DE"); // "Fre 1 Juni 2018 00:00"
+XDate("2018/06/01").format(_formats.dateMonthWeekDayFullEN); // Friday June 1 2018
+// etc..
 ```
