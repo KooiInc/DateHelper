@@ -21,7 +21,8 @@ const currentDateValues = (currentXDateValue, language) => {
     || new RegExp("~|"+Object.keys(currentValues).reduce((p, key) => p.concat(`(\\b${key}\\b)`), []).join("|"), "g");
   return currentValues;  };
 const dateSet = (date, part, val = 0) => {
-  if (part === "month") { val = val > 0 && val <= 12 ? val - 1 : val < 1 ? 12 : val; }
+  val = val < 1 ? -val : val;
+  if (part === "month") { val = val < 1 ? 12 : val - 1; }
   return dateGetOrSet[part](date.value, String(val)) && date; };
 const setLanguage = (date, language = moduleData.defaultLanguage) => {date.language = language; return date;};
 const format = (date, formatStr = "yyyy/mm/dd hh:mi:ss", language) => {
