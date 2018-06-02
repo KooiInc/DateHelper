@@ -13,6 +13,8 @@ const { XDate } = require("[path.to]DateExtension");
 const now = XDate();
 // etc.
 ```
+**Note**: The module contains tests. Reading the tests.js-file may provide more information on the usage.
+
 # Available methods
 ## add
 
@@ -75,7 +77,7 @@ const someDate = XDate("2015/03/15 22:18");
 someDate.format("DOW d MM yyyy hh:MI", "FR"); // "Dimanche 15 Mars 2015 22:18"
 ```
 
-If string should be included in the formatted date, you can use ~ (tilde), e.g.
+If a string without a space before or after a replacement string  should be included, you can use ~ (tilde), for example.
 
 ```javascript
 const someDate = XDate("2015/03/15 22:18:03.022");
@@ -112,12 +114,16 @@ Returns `XDate instance`
 **It** sets a part ([unit]) of an XDate instance
 
 **Notes** see `add` for possible unit values. All values to set are translated 
-to their equivalent Date set-methods (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date).
-Setting the month-unit is restricted to the values 1 - 12. Other values will keep the original date value.
+to their equivalent Date set-methods (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). 
+Negative values are converted to positive values (see examples).
+
 
 **Examples**
 
 ```javascript
-XDate("2000/01/01").setUnit(4, "month").format("MM"); // "april"
+XDate("2000/01/01").setUnit(4, "month").format("MM"); // "April"
 XDate("2000/01/01").setUnit(33, "day").format("yyyy/mm/dd"); // "2000/02/02"
+XDate("2000/01/01").setUnit(-33, "day").format("yyyy/mm/dd"); // "2000/02/02"
+XDate("2000/01/01").setUnit(44, "month").format("yyyy/mm/dd"); // "2003-08-01"
+XDate("2000/01/01").setUnit(-44, "month").format("yyyy/mm/dd"); // "2003-08-01"
 ```
