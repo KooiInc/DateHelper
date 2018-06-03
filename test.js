@@ -1,5 +1,8 @@
 process.env.TZ = "UTC";
-const { XDate, formatStrings } = require("./");
+const {
+  XDate,
+  formatStrings
+} = require("./");
 const chai = require("chai");
 const assert = chai["assert"];
 const expect = chai["expect"];
@@ -57,7 +60,7 @@ describe("DateHelper", () => {
     it("Add 1 day on feb 28 of a leap year", tests.leapYearFebruary28Add1);
     it("Add 1 day on feb 28 of a non leap year", tests.nonLeapYearFebruary28Add1);
   });
-  describe("√ Formats ISO", () =>  {
+  describe("√ Formats ISO", () => {
     const fixed = XDate("2015/03/18 11:03");
     it("dateISO (yyyy-mm-dd)", () => assert.equal(fixed.format(formatStrings.dateISO()), "2015-03-18"));
     it("dateTimeISOFull (yyyy-mm-dd hh:MI:S.MS)", () => assert.equal(fixed.format(formatStrings.dateTimeISOFull()), "2015-03-18 11:03:00.000"));
