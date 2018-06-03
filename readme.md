@@ -115,17 +115,21 @@ Returns `XDate instance`
 
 **Notes** see `add` for possible unit values. All values to set are translated 
 to their equivalent Date set-methods (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). 
-Negative values are converted to positive values (see examples).
-
+Negative, null, empty strings and  undefined values don't mutate anything (see examples). 
+You can however pass numeric string values (e.g. "15").
 
 **Examples**
 
 ```javascript
 XDate("2000/01/01").setUnit(4, "month").format("MM"); // "April"
+XDate("2000/01/01").setUnit("4", "month").format("MM"); // "April"
+XDate("2000/01/01").setUnit("four", "month").format("yyyy/mm/dd"); // "2000/01/01"
 XDate("2000/01/01").setUnit(33, "day").format("yyyy/mm/dd"); // "2000/02/02"
 XDate("2000/01/01").setUnit(-33, "day").format("yyyy/mm/dd"); // "2000/02/02"
 XDate("2000/01/01").setUnit(44, "month").format("yyyy/mm/dd"); // "2003/08/01"
 XDate("2000/01/01").setUnit(-44, "month").format("yyyy/mm/dd"); // "2003/08/01"
+XDate("2000/01/01").setUnit(null, "month").format("yyyy/mm/dd"); // "2000/01/01"
+// etc.
 ```
 
 # Bonus: predefined formatting strings
