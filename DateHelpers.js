@@ -52,17 +52,15 @@ const currentDateValues = (currentXDateValue, language) => {
     new RegExp("~|" + Object.keys(currentValues).reduce((p, key) => p.concat(`(\\b${key}\\b)`), []).join("|"), "g");
   return currentValues;
 };
-const dateSet = (date, part, val = 0) => {
-  val = val < 1 ? -val : val;
-  if (part === "month") {
-    val = val < 1 ? 12 : val - 1;
-  }
-  return dateGetOrSet[part](date.value, String(val)) && date;
+const setMonthValue = val => val < 1 || !val ? 12 : val - 1;
+const dateSet = (date, part, val) => {
+  val = +val;
+  val = isNaN(val) || val < 0
+    ? null
+    : String(val && part === objUnits.month && val ? setMonthValue(val) : val || dateGetOrSet[part](date.value));
+  return dateGetOrSet[part](date.value, val) && date;
 };
-const setLanguage = (date, language = moduleData.defaultLanguage) => {
-  date.language = language;
-  return date;
-};
+const setLanguage = (date, language = moduleData.defaultLanguage) => (date.language = language) && date;
 const format = (date, formatStr = "yyyy/mm/dd hh:mi:ss", language) => {
   const dateValueReplacements = currentDateValues(date.value, language || date.language);
   return (formatStr.replace(moduleData.formattingRegex, found => dateValueReplacements[found] || found)).split(/~/).join("");
