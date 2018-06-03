@@ -133,12 +133,37 @@ The library contains a module with a number of predefined formatting strings.
 
 ## Usage
 
-Assuming you already required the `DateExtension` module:
+If you want to use it, require as:
 
 ```
-const formats = require("[path.to.DateExtension]/Formats");
-XDate("2018/06/01").format(formats.dateTimeISOFull()); // "2018-06-01 00:00:00.000"
-XDate("2018/06/01").format(formats.dateTimeMonthFullWeekDayShort, "DE"); // "Fre 1 Juni 2018 00:00"
-XDate("2018/06/01").format(formats.dateMonthWeekDayFullEN); // Friday June 1 2018
+const { XDate, formatStrings } = require("[path.to.DateExtension]");
+```
+
+Now you can
+
+```
+XDate("2018/06/01").format(formatStrings.dateTimeISOFull()); // "2018-06-01 00:00:00.000"
+XDate("2018/06/01").format(formatStrings.dateTimeMonthFullWeekDayShort, "DE"); // "Fre 1 Juni 2018 00:00"
+XDate("2018/06/01").format(formatStrings.dateMonthWeekDayFullEN); // Friday June 1 2018
 // etc..
 ```
+
+Possible strings (**Note**: use method call for ISO-strings to set the separator)
+
+- dateISO: (function) (separator = "-") => `yyyy${separator}mm${separator}dd`
+- dateMonthFullEN: (string) "MM d yyyy"
+- dateMonthFull: (string) "d MM yyyy"
+- dateMonthWeekDayFullEN: (string) "DOW MM d yyyy"
+- dateMonthWeekDayFull: (string) "DOW d MM yyyy"
+- dateMonthFullWeekDayShortEN: (string) "dow MM d yyyy"
+- dateMonthFullWeekDayShort: (string) "dow d MM yyyy"
+- dateTimeISOFull: (function) (separator = "-") => `yyyy${separator}mm${separator}dd hh:MI:S.MS`
+- dateTimeISOSeconds: (function) (separator = "-") => `yyyy${separator}mm${separator}dd hh:MI:S`
+- dateTimeISO: (function) (separator = "-") => `yyyy${separator}mm${separator}dd hh:MI`
+- dateTimeMonthFullWeekDayShortEN: (string) "dow MM d yyyy hh:MI"
+- dateTimeMonthFullWeekDayShort: (string) "dow d MM yyyy hh:MI"
+- dateTimeMonthFullEN: (string) "MM d yyyy hh:MI"
+- dateTimeMonthFull: (string) "d MM yyyy hh:MI"
+- dateTimeMonthWeekDayFullEN: (string) "DOW MM d yyyy hh:MI"
+- dateTimeMonthShortWeekDayFull: (string) "DOW dd M d yyyy hh:MI"
+- dateTimeMonthWeekDayShortEN: (string) "dow M d yyyy hh:MI"
