@@ -94,10 +94,6 @@ describe("DateHelper", () => {
     it("dateTimeISOFull (yyyy-mm-dd hh:MI:S.MS)", () => assert.equal(fixed.format(formatStrings.dateTimeISOFull()), "2015-03-18 11:03:00.000"));
     it("dateTimeISOSeconds (yyyy-mm-dd hh:MI:S)", () => assert.equal(fixed.format(formatStrings.dateTimeISOSeconds()), "2015-03-18 11:03:00"));
     it("dateTimeISO (yyyy-mm-dd hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeISO()), "2015-03-18 11:03"));
-    it("dateISO (yyyy/mm/dd)", () => assert.equal(fixed.format(formatStrings.dateISO("/")), "2015/03/18"));
-    it("dateTimeISOFull (yyyy/mm/dd hh:MI:S.MS)", () => assert.equal(fixed.format(formatStrings.dateTimeISOFull("/")), "2015/03/18 11:03:00.000"));
-    it("dateTimeISOSeconds (yyyy/mm/dd hh:MI:S)", () => assert.equal(fixed.format(formatStrings.dateTimeISOSeconds("/")), "2015/03/18 11:03:00"));
-    it("dateTimeISO (yyyy/mm/dd hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeISO("/")), "2015/03/18 11:03"));
   });
   describe("√ Formats, language EN", () => {
     const fixed = XDate("2015/03/18 11:00");
