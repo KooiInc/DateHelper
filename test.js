@@ -6,6 +6,17 @@ const {
 const chai = require("chai");
 const assert = chai["assert"];
 const expect = chai["expect"];
+const units = XDate().units;
+const dateMethodFromUnit = {
+    day: "Date",
+    month: "Month",
+    year: "FullYear",
+    hour: "Hours",
+    minute: "Minutes",
+    second: "Seconds",
+    ms: "Milliseconds",
+    dow: "Day"
+};
 
 const tests = allTests();
 describe("DateHelper", () => {
@@ -13,10 +24,27 @@ describe("DateHelper", () => {
     it("Can create an extended Date", tests.createdValue);
     it("Methods approval", tests.methodsApproval);
     it("Properties approval", tests.propsApproval);
-    it("Set date", () => assert.equal(XDate("2017/01/01").setUnit(4, "day").value.getDate(), new Date("2017/01/04").getDate()));
-    it("Set year", () => assert.equal(XDate("2017/01/01").setUnit(2021, "year").value.getFullYear(), new Date("2021/01/04").getFullYear()));
-    it("Set month", () => assert.equal(XDate("2017/02/05").setUnit(1, "month").value.getMonth(), new Date("2017/01/05").getMonth()));
     it("Leftpad values", tests.leftPadding);
+  });
+  describe("√ Set Datepart (setUnit)", () => {
+    const testDate = "2017/02/05";
+    it("Set date [4]", tests.setUnit(units.day, 4, "2017/02/04"));
+    it("Set year [2021]", tests.setUnit(units.year, 2021, "2021/02/05"));
+    it("Set month [1]", tests.setUnit(units.month, 1, "2017/01/05"));
+    it("Set date [\"12\"] (can use numeric string value)", tests.setUnit(units.month, "12", "2017/12/05"));
+    it("Set year [\"2002\"] (can use numeric string value)", tests.setUnit(units.year, "2002", "2002/02/05"));
+    it("Set date [0] (no change)", tests.setUnit(units.day, 0, testDate));
+    it("Set year [0] (no change)", tests.setUnit(units.year, 0, testDate));
+    it("Set date [-1] (no change)", tests.setUnit(units.day, -1, testDate));
+    it("Set year [-1] (no change)", tests.setUnit(units.year, -1, testDate));
+    it("Set date [null] (no change)", tests.setUnit(units.day, null, testDate));
+    it("Set year [null] (no change)", tests.setUnit(units.year, null, testDate));
+    it("Set date [\"\"] (no change)", tests.setUnit(units.day, "", testDate));
+    it("Set year [\"\"] (no change)", tests.setUnit(units.year, "", testDate));
+    it("Set date [\"five\"] (no change)", tests.setUnit(units.day, "five", testDate));
+    it("Set year [\"two\"] (no change)", tests.setUnit(units.year, "two", testDate));
+    it("Set date [undefined] (no change)", tests.setUnit(units.day, undefined, testDate));
+    it("Set year [undefined] (no change)", tests.setUnit(units.year, undefined, testDate));
   });
   describe("√ Formatting", () => {
     it("Format [yyyy-mm-dd hh:MI]", tests.canFormatDefault);
@@ -38,7 +66,7 @@ describe("DateHelper", () => {
     it("Format german weekday string (long)", tests.formatDEWeekLong);
     it("Format german weekday string (short)", tests.formatDEWeekShort);
   });
-  describe("√ Arithmetic", () => {
+  describe("√ Arithmetic (add)", () => {
     it("No value change adding (invalid value) 'five'", tests.addSubtractInvalidStringParameterDoesNotChangeDate);
     it("Add months", tests.canAddMonth);
     it("Subtract months", tests.canSubtractMonth);
@@ -121,8 +149,13 @@ function allTests() {
   const fixedNL = XDate(fixed.value, "NL");
   const fixedFR = XDate(fixed.value, "FR");
   const fixedDE = XDate(fixed.value, "DE");
-  const units = now.units;
   return {
+    setUnit: (part, value, resultDate) => () => {
+      const getMethod = `get${dateMethodFromUnit[part]}`;
+      const xDate = XDate("2017/02/05").setUnit(value, part).value;
+      const testDate = new Date(resultDate);
+      return assert.equal(xDate[getMethod](), testDate[getMethod]());
+    },
     createdValue: () => {
       const nowPlain = new Date();
       assert.equal(now.format("yyyy/m/d"), [nowPlain.getFullYear(), nowPlain.getMonth() + 1, nowPlain.getDate()].join("/"))
