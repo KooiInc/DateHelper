@@ -1,9 +1,8 @@
 process.env.TZ = "UTC";
-const { XDate } = require("./");
+const { XDate, formatStrings } = require("./");
 const chai = require("chai");
 const assert = chai["assert"];
 const expect = chai["expect"];
-const formats = require("./Formats");
 
 const tests = allTests();
 describe("DateHelper", () => {
@@ -60,54 +59,54 @@ describe("DateHelper", () => {
   });
   describe("√ Formats ISO", () =>  {
     const fixed = XDate("2015/03/18 11:03");
-    it("dateISO (yyyy-mm-dd)", () => assert.equal(fixed.format(formats.dateISO()), "2015-03-18"));
-    it("dateTimeISOFull (yyyy-mm-dd hh:MI:S.MS)", () => assert.equal(fixed.format(formats.dateTimeISOFull()), "2015-03-18 11:03:00.000"));
-    it("dateTimeISOSeconds (yyyy-mm-dd hh:MI:S)", () => assert.equal(fixed.format(formats.dateTimeISOSeconds()), "2015-03-18 11:03:00"));
-    it("dateTimeISO (yyyy-mm-dd hh:MI)", () => assert.equal(fixed.format(formats.dateTimeISO()), "2015-03-18 11:03"));
-    it("dateISO (yyyy/mm/dd)", () => assert.equal(fixed.format(formats.dateISO("/")), "2015/03/18"));
-    it("dateTimeISOFull (yyyy/mm/dd hh:MI:S.MS)", () => assert.equal(fixed.format(formats.dateTimeISOFull("/")), "2015/03/18 11:03:00.000"));
-    it("dateTimeISOSeconds (yyyy/mm/dd hh:MI:S)", () => assert.equal(fixed.format(formats.dateTimeISOSeconds("/")), "2015/03/18 11:03:00"));
-    it("dateTimeISO (yyyy/mm/dd hh:MI)", () => assert.equal(fixed.format(formats.dateTimeISO("/")), "2015/03/18 11:03"));
+    it("dateISO (yyyy-mm-dd)", () => assert.equal(fixed.format(formatStrings.dateISO()), "2015-03-18"));
+    it("dateTimeISOFull (yyyy-mm-dd hh:MI:S.MS)", () => assert.equal(fixed.format(formatStrings.dateTimeISOFull()), "2015-03-18 11:03:00.000"));
+    it("dateTimeISOSeconds (yyyy-mm-dd hh:MI:S)", () => assert.equal(fixed.format(formatStrings.dateTimeISOSeconds()), "2015-03-18 11:03:00"));
+    it("dateTimeISO (yyyy-mm-dd hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeISO()), "2015-03-18 11:03"));
+    it("dateISO (yyyy/mm/dd)", () => assert.equal(fixed.format(formatStrings.dateISO("/")), "2015/03/18"));
+    it("dateTimeISOFull (yyyy/mm/dd hh:MI:S.MS)", () => assert.equal(fixed.format(formatStrings.dateTimeISOFull("/")), "2015/03/18 11:03:00.000"));
+    it("dateTimeISOSeconds (yyyy/mm/dd hh:MI:S)", () => assert.equal(fixed.format(formatStrings.dateTimeISOSeconds("/")), "2015/03/18 11:03:00"));
+    it("dateTimeISO (yyyy/mm/dd hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeISO("/")), "2015/03/18 11:03"));
   });
   describe("√ Formats, language EN", () => {
     const fixed = XDate("2015/03/18 11:00");
-    it("dateMonthFullEN (MM d yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullEN), "March 18 2015"));
-    it("dateMonthWeekDayFullEN (DOW MM d yyyy)", () => assert.equal(fixed.format(formats.dateMonthWeekDayFullEN), "Wednesday March 18 2015"));
-    it("dateMonthFullWeekDayShortEN (dow MM d yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullWeekDayShortEN), "Wed March 18 2015"));
-    it("dateTimeMonthFullWeekDayShortEN (dow MM d yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFullWeekDayShortEN), "Wed March 18 2015 11:00"));
-    it("dateTimeMonthFullEN (MM d yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFullEN), "March 18 2015 11:00"));
-    it("dateTimeMonthWeekDayFullEN (DOW MM d yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthWeekDayFullEN), "Wednesday March 18 2015 11:00"));
-    it("dateTimeMonthWeekDayShortEN (dow M d yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthWeekDayShortEN), "Wed Mar 18 2015 11:00"));
+    it("dateMonthFullEN (MM d yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFullEN), "March 18 2015"));
+    it("dateMonthWeekDayFullEN (DOW MM d yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthWeekDayFullEN), "Wednesday March 18 2015"));
+    it("dateMonthFullWeekDayShortEN (dow MM d yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFullWeekDayShortEN), "Wed March 18 2015"));
+    it("dateTimeMonthFullWeekDayShortEN (dow MM d yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFullWeekDayShortEN), "Wed March 18 2015 11:00"));
+    it("dateTimeMonthFullEN (MM d yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFullEN), "March 18 2015 11:00"));
+    it("dateTimeMonthWeekDayFullEN (DOW MM d yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthWeekDayFullEN), "Wednesday March 18 2015 11:00"));
+    it("dateTimeMonthWeekDayShortEN (dow M d yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthWeekDayShortEN), "Wed Mar 18 2015 11:00"));
   });
   describe("√ Formats, language DE", () => {
     const fixed = XDate("2015/03/18 11:00", "DE");
-    it("dateMonthFull (d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFull), "18 März 2015"));
-    it("dateMonthWeekDayFull (DOW d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthWeekDayFull), "Mittwoch 18 März 2015"));
-    it("dateMonthFullWeekDayShort (dow d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullWeekDayShort), "Mit 18 März 2015"));
-    it("dateTimeMonthFullWeekDayShort (dow d MM yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFullWeekDayShort), "Mit 18 März 2015 11:00"));
-    it("dateTimeMonthFull (d MM yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFull), "18 März 2015 11:00"));
-    it("dateTimeMonthShortWeekDayFull (DOW dd M d yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayFull), "Mittwoch 18 Mär 18 2015 11:00"));
-    it("dateTimeMonthShortWeekDayShort (dow d M dd yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayShort), "Mit 18 Mär 2015 11:00"));
+    it("dateMonthFull (d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFull), "18 März 2015"));
+    it("dateMonthWeekDayFull (DOW d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthWeekDayFull), "Mittwoch 18 März 2015"));
+    it("dateMonthFullWeekDayShort (dow d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFullWeekDayShort), "Mit 18 März 2015"));
+    it("dateTimeMonthFullWeekDayShort (dow d MM yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFullWeekDayShort), "Mit 18 März 2015 11:00"));
+    it("dateTimeMonthFull (d MM yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFull), "18 März 2015 11:00"));
+    it("dateTimeMonthShortWeekDayFull (DOW dd M d yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthShortWeekDayFull), "Mittwoch 18 Mär 18 2015 11:00"));
+    it("dateTimeMonthShortWeekDayShort (dow d M dd yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthShortWeekDayShort), "Mit 18 Mär 2015 11:00"));
   });
   describe("√ Formats, language NL", () => {
     const fixed = XDate("2015/03/18 11:00", "NL");
-    it("dateMonthFull (d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFull), "18 Maart 2015"));
-    it("dateMonthWeekDayFull (DOW d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthWeekDayFull), "Woensdag 18 Maart 2015"));
-    it("dateMonthFullWeekDayShort (dow d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullWeekDayShort), "Woe 18 Maart 2015"));
-    it("dateTimeMonthFullWeekDayShort (dow d MM yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFullWeekDayShort), "Woe 18 Maart 2015 11:00"));
-    it("dateTimeMonthFull (d MM yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFull), "18 Maart 2015 11:00"));
-    it("dateTimeMonthShortWeekDayFull (DOW dd M d yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayFull), "Woensdag 18 Maa 18 2015 11:00"));
-    it("dateTimeMonthShortWeekDayShort (dow d M dd yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayShort), "Woe 18 Maa 2015 11:00"));
+    it("dateMonthFull (d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFull), "18 Maart 2015"));
+    it("dateMonthWeekDayFull (DOW d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthWeekDayFull), "Woensdag 18 Maart 2015"));
+    it("dateMonthFullWeekDayShort (dow d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFullWeekDayShort), "Woe 18 Maart 2015"));
+    it("dateTimeMonthFullWeekDayShort (dow d MM yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFullWeekDayShort), "Woe 18 Maart 2015 11:00"));
+    it("dateTimeMonthFull (d MM yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFull), "18 Maart 2015 11:00"));
+    it("dateTimeMonthShortWeekDayFull (DOW dd M d yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthShortWeekDayFull), "Woensdag 18 Maa 18 2015 11:00"));
+    it("dateTimeMonthShortWeekDayShort (dow d M dd yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthShortWeekDayShort), "Woe 18 Maa 2015 11:00"));
   });
   describe("√ Formats, language FR", () => {
     const fixed = XDate("2015/03/18 11:00", "FR");
-    it("dateMonthFull (d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFull), "18 Mars 2015"));
-    it("dateMonthWeekDayFull (DOW d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthWeekDayFull), "Mercredi 18 Mars 2015"));
-    it("dateMonthFullWeekDayShort (dow d MM yyyy)", () => assert.equal(fixed.format(formats.dateMonthFullWeekDayShort), "Mer 18 Mars 2015"));
-    it("dateTimeMonthFullWeekDayShort (dow d MM yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFullWeekDayShort), "Mer 18 Mars 2015 11:00"));
-    it("dateTimeMonthFull (d MM yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthFull), "18 Mars 2015 11:00"));
-    it("dateTimeMonthShortWeekDayFull (DOW dd M d yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayFull), "Mercredi 18 Mar 18 2015 11:00"));
-    it("dateTimeMonthShortWeekDayShort (dow d M dd yyyy hh:MI)", () => assert.equal(fixed.format(formats.dateTimeMonthShortWeekDayShort), "Mer 18 Mar 2015 11:00"));
+    it("dateMonthFull (d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFull), "18 Mars 2015"));
+    it("dateMonthWeekDayFull (DOW d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthWeekDayFull), "Mercredi 18 Mars 2015"));
+    it("dateMonthFullWeekDayShort (dow d MM yyyy)", () => assert.equal(fixed.format(formatStrings.dateMonthFullWeekDayShort), "Mer 18 Mars 2015"));
+    it("dateTimeMonthFullWeekDayShort (dow d MM yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFullWeekDayShort), "Mer 18 Mars 2015 11:00"));
+    it("dateTimeMonthFull (d MM yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthFull), "18 Mars 2015 11:00"));
+    it("dateTimeMonthShortWeekDayFull (DOW dd M d yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthShortWeekDayFull), "Mercredi 18 Mar 18 2015 11:00"));
+    it("dateTimeMonthShortWeekDayShort (dow d M dd yyyy hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeMonthShortWeekDayShort), "Mer 18 Mar 2015 11:00"));
   })
 
 });
