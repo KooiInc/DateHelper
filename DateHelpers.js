@@ -52,8 +52,8 @@ const currentDateValues = (currentXDateValue, language) => {
     new RegExp("~|" + Object.keys(currentValues).reduce((p, key) => p.concat(`(\\b${key}\\b)`), []).join("|"), "g");
   return currentValues;
 };
-const setMonthValue = val => val < 1 || !val ? 12 : val - 1;
 const dateSet = (date, part, val) => {
+  const setMonthValue = val => val < 1 || !val ? 12 : val - 1;
   val = +val;
   val = isNaN(val) || val < 0
     ? null
