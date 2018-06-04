@@ -25,7 +25,7 @@ const now = XDate();
 `unit` is a string. An XDate instance contains unit-properties you can use (see example).
 
 Possible unit values: 
-- "day" 
+- "day" (default)
 - "month" 
 - "year" 
 - "hour" 

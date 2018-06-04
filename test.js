@@ -67,7 +67,8 @@ describe("DateHelper", () => {
     it("Format german weekday string (short)", tests.formatDEWeekShort);
   });
   describe("√ Arithmetic (add)", () => {
-    it("No value change adding (invalid value) 'five'", tests.addSubtractInvalidStringParameterDoesNotChangeDate);
+    it("Add (invalid value) 'five' (no change)", tests.addSubtractInvalidStringParameterDoesNotChangeDate);
+    it("Add without unit param (default = day)", tests.addWithoutUnit);
     it("Add months", tests.canAddMonth);
     it("Subtract months", tests.canSubtractMonth);
     it("Add years", tests.canAddYear);
@@ -202,6 +203,7 @@ function allTests() {
     canAddMilliseconds: () => assert.equal(+XDate(fixed.value).add(200, units.ms).format("ms"), 200),
     canSubtractMilliseconds: () => assert.equal(+XDate(fixed.value).add(-200, units.ms).format("ms"), 800),
     addSubtractInvalidStringParameterDoesNotChangeDate: () => assert.equal(XDate(fixed.value).add("five", units.day).format("d"), XDate(fixed.value).format("d")),
+    addWithoutUnit: () => assert.equal(XDate(fixed.value).add(4).format("d"), 15),
     leapYearFebruary28Add1: () => assert.equal(XDate("2000/02/28").add(1, units.day).value.getDate(), 29),
     nonLeapYearFebruary28Add1: () => assert.equal(XDate("2001/02/28").add(1, units.day).value.getMonth(), 2),
   };
