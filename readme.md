@@ -139,16 +139,19 @@ The library contains a module with a number of predefined formatting strings.
 
 If you want to use it, require as:
 
-```
+```javascript
 const { XDate, formatStrings } = require("[path.to.DateExtension]");
 ```
 
 Now you can
 
-```
-XDate("2018/06/01").format(formatStrings.dateTimeISOFull()); // "2018-06-01 00:00:00.000"
-XDate("2018/06/01").format(formatStrings.dateTimeMonthFullWeekDayShort, "DE"); // "Fre 1 Juni 2018 00:00"
-XDate("2018/06/01").format(formatStrings.dateMonthWeekDayFullEN); // Friday June 1 2018
+```javascript
+XDate("2018/06/01")
+    .format(formatStrings.dateTimeISOFull()); // "2018-06-01 00:00:00.000"
+XDate("2018/06/01")
+    .format(formatStrings.dateTimeMonthFullWeekDayShort, "DE"); // "Fre 1 Juni 2018 00:00"
+XDate("2018/06/01")
+    .format(formatStrings.dateMonthWeekDayFullEN); // Friday June 1 2018
 // etc..
 ```
 
