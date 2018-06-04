@@ -26,5 +26,5 @@ module.exports = {
         language: language
       });
   })(),
-  formatStrings: module.exports.formatStrings = require("./Formats"),
+  formatStrings: require("./Formats"),
 };
