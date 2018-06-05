@@ -167,14 +167,16 @@ function allTests() {
       assert.equal(x.format("d"), 13);
     },
     methodsApproval: () => {
-      console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(now)));
-      const keys = Object.getOwnPropertyNames(Object.getPrototypeOf(now)) || Object.keys(now);
+      let keys = Object.getOwnPropertyNames(Object.getPrototypeOf(now));
+      keys = keys.filter(k => k === "add").length ? keys : Object.keys(now);
       assert.equal(keys.filter(k => (now[k] || now.prototype[k]) instanceof Function).sort().toString(), "add,format,setLanguage,setUnit")
     },
     propsApproval: () => {
-      // todo: hier moet units nog bij (zit evt in prototype)
-      const keys = Object.keys(now);
-      assert.equal(keys.filter(k => !(now[k] instanceof Function)).sort().toString(), "language,units,value");
+      const isProto = Object.getOwnPropertyNames(Object.getPrototypeOf(now)).filter(k => k === "add").length;
+      keys =  Object.keys(now);
+      assert.equal(
+        keys.filter(k => !(now[k] instanceof Function)).sort().toString(), 
+        isProto ? "language,value" : "language,units,value");
     },
     canFormatDefault: () => assert.equal(fixed.format("yyyy-mm-dd hh:MI"), "2018-07-11 00:00"),
     canFormatDefaultWithStrings: () => assert.equal(fixed.format("yyyy-mm-dd~T~hh:MI:S:MS~Z"), "2018-07-11T00:00:00:000Z"),
