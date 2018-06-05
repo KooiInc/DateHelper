@@ -166,8 +166,15 @@ function allTests() {
       assert.equal(x.add(33, units.day).format("m"), 8);
       assert.equal(x.format("d"), 13);
     },
-    methodsApproval: () => assert.equal(Object.keys(now).filter(k => now[k] instanceof Function).sort().toString(), "add,format,setLanguage,setUnit"),
-    propsApproval: () => assert.equal(Object.keys(now).filter(k => !(now[k] instanceof Function)).sort().toString(), "language,units,value"),
+    methodsApproval: () => {
+      const keys = Object.getOwnPropertyNames(Object.getPrototypeOf(now)) || Object.keys(now);
+      assert.equal(keys.filter(k => (now[k] || now.prototype[k]) instanceof Function).sort().toString(), "add,format,setLanguage,setUnit")
+    },
+    propsApproval: () => {
+      // todo: hier moet units nog bij (zit evt in prototype)
+      const keys = Object.keys(now);
+      assert.equal(keys.filter(k => !(now[k] instanceof Function)).sort().toString(), "language,units,value");
+    },
     canFormatDefault: () => assert.equal(fixed.format("yyyy-mm-dd hh:MI"), "2018-07-11 00:00"),
     canFormatDefaultWithStrings: () => assert.equal(fixed.format("yyyy-mm-dd~T~hh:MI:S:MS~Z"), "2018-07-11T00:00:00:000Z"),
     formatENMonthLong: () => assert.equal(fixedEN.format("MM"), "July"),
