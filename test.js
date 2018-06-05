@@ -167,6 +167,7 @@ function allTests() {
       assert.equal(x.format("d"), 13);
     },
     methodsApproval: () => {
+      console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(now)));
       const keys = Object.getOwnPropertyNames(Object.getPrototypeOf(now)) || Object.keys(now);
       assert.equal(keys.filter(k => (now[k] || now.prototype[k]) instanceof Function).sort().toString(), "add,format,setLanguage,setUnit")
     },
