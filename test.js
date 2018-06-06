@@ -6,7 +6,9 @@ const {
 const chai = require("chai");
 const assert = chai["assert"];
 const expect = chai["expect"];
-const units = XDate().units;
+const DTHelpers = require("./DateHelpers");
+const units = DTHelpers.units;
+
 const dateMethodFromUnit = {
     day: "Date",
     month: "Month",
@@ -19,12 +21,20 @@ const dateMethodFromUnit = {
 };
 
 const tests = allTests();
-describe("DateHelper", () => {
+describe("Date Extensions", () => {
   describe("√ General/approval", () => {
     it("Can create an extended Date", tests.createdValue);
     it("Methods approval", tests.methodsApproval);
     it("Properties approval", tests.propsApproval);
     it("Leftpad values", tests.leftPadding);
+  });
+  describe("√ Helper methods", () => {
+    it("setValidDate without parameter delivers Date obj (i.c. now)", () => assert.equal(DTHelpers.setValidDate() instanceof Date, true));
+    it("currentDateValues month value", () => assert.equal(DTHelpers.currentDateValues(new Date()).m, new Date().getMonth()+1));
+    it("currentDateValues monthString EN", () => assert.equal(DTHelpers.currentDateValues(new Date("2018/06/01"), "EN").MM, "June"));
+    it("currentDateValues monthString NL", () => assert.equal(DTHelpers.currentDateValues(new Date("2018/06/01"), "NL").MM, "Juni"));
+    it("currentDateValues monthString DE", () => assert.equal(DTHelpers.currentDateValues(new Date("2018/06/01"), "DE").MM, "Juni"));
+    it("currentDateValues monthString FR", () => assert.equal(DTHelpers.currentDateValues(new Date("2018/06/01"), "FR").MM, "Juin"));
   });
   describe("√ Set Datepart (setUnit)", () => {
     const testDate = "2017/02/05";
@@ -93,6 +103,7 @@ describe("DateHelper", () => {
     const fixed = XDate("2015/03/18 11:03");
     it("dateISO (yyyy-mm-dd)", () => assert.equal(fixed.format(formatStrings.dateISO()), "2015-03-18"));
     it("dateTimeISOFull (yyyy-mm-dd hh:MI:S.MS)", () => assert.equal(fixed.format(formatStrings.dateTimeISOFull()), "2015-03-18 11:03:00.000"));
+    it("dateTimeISOFullZulu (yyyy-mm-dd~T~hh:MI:S.MS~Z)", () => assert.equal(fixed.format(formatStrings.dateTimeISOFullZulu()), "2015-03-18T11:03:00.000Z"));
     it("dateTimeISOSeconds (yyyy-mm-dd hh:MI:S)", () => assert.equal(fixed.format(formatStrings.dateTimeISOSeconds()), "2015-03-18 11:03:00"));
     it("dateTimeISO (yyyy-mm-dd hh:MI)", () => assert.equal(fixed.format(formatStrings.dateTimeISO()), "2015-03-18 11:03"));
   });
