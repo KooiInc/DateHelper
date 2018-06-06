@@ -24,5 +24,5 @@ Instance.prototype = {
 module.exports = {
   formatStrings: require("./Formats"),
   XDate: (someDate, language = moduleData.defaultLanguage) =>
-      new Instance(setValidDate(someDate ? new Date(someDate) : new Date()), language),
+      new Instance(setValidDate(someDate), language),
 };
