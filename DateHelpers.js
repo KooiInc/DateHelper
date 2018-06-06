@@ -67,7 +67,14 @@ const format = (date, formatStr = "yyyy/mm/dd hh:mi:ss", language) => {
   return (formatStr.replace(moduleData.formattingRegex, found => dateValueReplacements[found] || found)).split(/~/).join("");
 };
 const dateAdd = (date, part, val = 0) => dateGetOrSet[part](date.value, (+val || 0) + dateGetOrSet[part](date.value)) && date;
-const setValidDate = param => param && !isNaN(param) ? param : new Date();
+const setValidDate = param => {
+
+  if (param && param.constructor === String && param.split(/[-/]/).length < 3) {
+    param = undefined;
+  }
+  const tryDate = (param && new Date(param)) || NaN;
+  return !isNaN(tryDate) ? tryDate : new Date();
+}
 
 module.exports = {
   moduleData: moduleData,
