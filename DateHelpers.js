@@ -3,7 +3,7 @@ const {
   translations
 } = require("./Translations");
 let moduleData = {
-  formattingRegex: null,
+  formattingRegex: /(\byyyy\b)|(\bm\b)|(\bd\b)|(\bh\b)|(\bmi\b)|(\bs\b)|(\bms\b)|(\bwd\b)|(\bmm\b)|(\bdd\b)|(\bhh\b)|(\bMI\b)|(\bS\b)|(\bMS\b)|(\bM\b)|(\bMM\b)|(\bdow\b)|(\bDOW\b)/g,
   defaultLanguage: "EN"
 };
 const padLeft = (n, len = 2, chr = "0") => len > (`${n}`).length && `0${new Array(len - (`${n}`).length).join(chr || "0")}${n}` || n;
@@ -25,7 +25,7 @@ const dateGetOrSet = Object.entries(dateUnits)
     [part[0]]: (date, value) => date[`${value ? `set` : `get`}${part[1]}`](+value)
   }))
   .reduce((prts, part) => objMerge(prts, part), {});
-const currentDateValues = (currentXDateValue, language) => {
+const currentDateValues = (currentXDateValue, language = moduleData.defaultLanguage) => {
   let currentValues = {
     yyyy: dateGetOrSet.year(currentXDateValue),
     m: dateGetOrSet.month(currentXDateValue) + 1,
@@ -48,10 +48,11 @@ const currentDateValues = (currentXDateValue, language) => {
     dow: translations.weekdays.short[language][currentValues.wd],
     DOW: translations.weekdays.full[language][currentValues.wd]
   });
-  moduleData.formattingRegex = moduleData.formattingRegex ||
-    new RegExp("~|" + Object.keys(currentValues).reduce((p, key) => p.concat(`(\\b${key}\\b)`), []).join("|"), "g");
   return currentValues;
 };
+const setFormattingRegex = () => 
+  new RegExp(Object.keys(currentValues(new Date(), moduleData.defaultLanguage))
+    .reduce((p, key) => p.concat(`(\\b${key}\\b)`), []).join("|"), "g");
 const dateSet = (date, part, val) => {
   const setMonthValue = val => val < 1 || !val ? 12 : val - 1;
   val = +val;
@@ -66,16 +67,24 @@ const format = (date, formatStr = "yyyy/mm/dd hh:mi:ss", language) => {
   return (formatStr.replace(moduleData.formattingRegex, found => dateValueReplacements[found] || found)).split(/~/).join("");
 };
 const dateAdd = (date, part, val = 0) => dateGetOrSet[part](date.value, (+val || 0) + dateGetOrSet[part](date.value)) && date;
-const setValidDate = param => !isNaN(param) ? param : new Date();
+const setValidDate = param => {
+
+  if (param && param.constructor === String && param.split(/[-/]/).length < 3) {
+    param = undefined;
+  }
+  const tryDate = (param && new Date(param)) || NaN;
+  return !isNaN(tryDate) ? tryDate : new Date();
+}
 
 module.exports = {
+  moduleData: moduleData,
   dateSet: dateSet,
+  currentDateValues,
   dateUnits: dateUnits,
   setLanguage: setLanguage,
   format: format,
   dateAdd: dateAdd,
   setValidDate: setValidDate,
-  moduleData: moduleData,
   objMerge: objMerge,
-  units: objUnits
+  units: objUnits,
 };

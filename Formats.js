@@ -2,6 +2,7 @@ module.exports = {
     // ISO
     dateISO: (separator = "-") => `yyyy${separator}mm${separator}dd`,
     dateTimeISOFull: (separator = "-") => `yyyy${separator}mm${separator}dd hh:MI:S.MS`,
+    dateTimeISOFullZulu: (separator = "-") => `yyyy${separator}mm${separator}dd~T~hh:MI:S.MS~Z`,
     dateTimeISOSeconds: (separator = "-") => `yyyy${separator}mm${separator}dd hh:MI:S`,
     dateTimeISO: (separator = "-") => `yyyy${separator}mm${separator}dd hh:MI`,
     // EN
