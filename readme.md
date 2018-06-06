@@ -16,6 +16,24 @@ const now = XDate();
 **Note**: The module contains tests. Reading the tests.js-file may provide more information on the usage.
 
 # Available methods
+
+## XDate
+**Parameters** `date, language`
+
+`date` can be: nothing, a date string (with at least year, month and date (like "2018/03/01")) or a Date (new Date). An invalid date becomes the current date.
+`language` Possible values are: empty, "EN", "NL", "DE" or "FR". Default is "EN"
+
+Examples
+
+```javascript
+const now = XDate(); // formatting language default English
+const nowToo = XDate("2019");
+const nowToo2 = XDate("no dice");
+const then = XDate("2018/04/06", "NL"); // formatting language will be dutch now
+const futureDate = XDate(new Date("2050/01/01"), "DE"); // formatting language will be  german
+// etc.
+```
+
 ## add
 
 **Parameters** `value = 0, unit`
