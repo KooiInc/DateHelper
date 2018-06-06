@@ -29,7 +29,9 @@ describe("Date Extensions", () => {
     it("Leftpad values", tests.leftPadding);
   });
   describe("√ Helper methods", () => {
-    it("setValidDate without parameter delivers Date obj (i.c. now)", () => assert.equal(DTHelpers.setValidDate() instanceof Date, true));
+    it("setValidDate without parameter delivers current date", () => assert.equal(DTHelpers.setValidDate().toDateString(), new Date().toDateString()));
+    it("setValidDate with invalid parameter delivers current date", () => assert.equal(DTHelpers.setValidDate("2018").toString(), new Date().toString()));
+    it("setValidDate with string parameter", () => assert.equal(DTHelpers.setValidDate("2018/04/05").toString(), new Date("2018/04/05").toString()));
     it("currentDateValues month value", () => assert.equal(DTHelpers.currentDateValues(new Date()).m, new Date().getMonth()+1));
     it("currentDateValues monthString EN", () => assert.equal(DTHelpers.currentDateValues(new Date("2018/06/01"), "EN").MM, "June"));
     it("currentDateValues monthString NL", () => assert.equal(DTHelpers.currentDateValues(new Date("2018/06/01"), "NL").MM, "Juni"));
